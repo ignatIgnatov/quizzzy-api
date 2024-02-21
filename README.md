@@ -17,10 +17,10 @@ You would need the following tools installed before running the project locally:
 
 1. Create .env file in the root folder with database credentials:
    ```
-   Q_DATABASE_NAME=quizzzy-db
-   Q_DATABASE_USER=user
-   Q_DATABASE_PASSWORD=DB-password
-   Q_DATABASE_ROOT_PASSWORD=DB-password
+   QZ_DATABASE_NAME=quizzzy-db
+   QZ_DATABASE_USER=user
+   QZ_DATABASE_PASSWORD=DB-password
+   QZ_DATABASE_ROOT_PASSWORD=DB-password
    ```
 2. Start DB
     - run `docker-compose up` in a terminal in the root folder
@@ -28,7 +28,7 @@ You would need the following tools installed before running the project locally:
 3. Setup IntelliJ environment variables
     - Run -> Edit Configurations, then under Environment Variables, you should add the following:
    ```
-   Q_DATABASE_NAME=quizzzy-db;Q_DATABASE_PASSWORD=DB-password;Q_DATABASE_ROOT_PASSWORD=DB-password;Q_DATABASE_USER=user;JWT_SECRET=36763979244226452948404D635166546A576D5A7134743777217A25432A462D
+   QZ_DATABASE_NAME=quizzzy-db;QZ_DATABASE_PASSWORD=DB-password;QZ_DATABASE_ROOT_PASSWORD=DB-password;QZ_DATABASE_USER=user;JWT_SECRET=36763979244226452948404D635166546A576D5A7134743777217A25432A462D
    ```
    The first 3 parameters are responsible for database connection and should match the ones we set up in
    step 1. The
