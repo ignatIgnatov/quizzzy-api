@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+  db:
+    image: mysql:8.3.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${EMS_DATABASE_NAME}
+      MYSQL_USER: ${EMS_DATABASE_USER}
+      MYSQL_PASSWORD: ${EMS_DATABASE_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${EMS_DATABASE_ROOT_PASSWORD}
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - my-db:/var/lib/mysql
+
+volumes:
+  my-db:
