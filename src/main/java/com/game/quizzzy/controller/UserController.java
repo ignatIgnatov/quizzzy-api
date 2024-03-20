@@ -1,13 +1,10 @@
 package com.game.quizzzy.controller;
 
 import com.game.quizzzy.dto.response.UserResponseDto;
-import com.game.quizzzy.model.User;
 import com.game.quizzzy.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,20 +19,14 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public List<UserResponseDto> getUsers() {
-        return userService.getUsers();
+        return userService.getAllUsers();
     }
 
     @GetMapping("/{email}")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> getUserByEmail(@PathVariable("email") String email) {
-        try {
-            User theUser = userService.getUser(email);
-            return ResponseEntity.ok(theUser);
-        } catch (UsernameNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching user");
-        }
+    @ResponseStatus(HttpStatus.OK)
+    public UserResponseDto getUserByEmail(@PathVariable("email") String email) {
+        return userService.getUser(email);
     }
 
     @DeleteMapping("/{email}")

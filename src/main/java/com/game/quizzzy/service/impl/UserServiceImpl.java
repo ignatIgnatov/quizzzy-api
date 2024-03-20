@@ -19,23 +19,24 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
 
     @Override
-    public List<UserResponseDto> getUsers() {
+    public List<UserResponseDto> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(user -> modelMapper.map(user, UserResponseDto.class))
                 .toList();
     }
 
     @Override
-    public User getUser(String email) {
-        return userRepository
+    public UserResponseDto getUser(String email) {
+        User user = userRepository
                 .findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(email));
+        return modelMapper.map(user, UserResponseDto.class);
     }
 
     @Transactional
     @Override
     public void deleteUser(String email) {
-        User user = getUser(email);
+        UserResponseDto user = getUser(email);
         if (user != null) {
             userRepository.deleteByEmail(email);
         }

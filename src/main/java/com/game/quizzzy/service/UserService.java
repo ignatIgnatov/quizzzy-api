@@ -1,14 +1,13 @@
 package com.game.quizzzy.service;
 
 import com.game.quizzzy.dto.response.UserResponseDto;
-import com.game.quizzzy.model.User;
 
 import java.util.List;
 
 public interface UserService {
-    List<UserResponseDto> getUsers();
+    List<UserResponseDto> getAllUsers();
 
     void deleteUser(String email);
 
-    User getUser(String email);
+    UserResponseDto getUser(String email);
 }
