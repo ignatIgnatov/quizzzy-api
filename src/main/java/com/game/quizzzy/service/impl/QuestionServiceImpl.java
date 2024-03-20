@@ -3,6 +3,7 @@ package com.game.quizzzy.service.impl;
 import com.game.quizzzy.dto.request.QuestionRequestDto;
 import com.game.quizzzy.dto.response.QuestionResponseDto;
 import com.game.quizzzy.dto.response.UserResponseDto;
+import com.game.quizzzy.exception.QuestionNotFoundException;
 import com.game.quizzzy.exception.UserNotFoundException;
 import com.game.quizzzy.model.Category;
 import com.game.quizzzy.model.Question;
@@ -60,5 +61,14 @@ public class QuestionServiceImpl implements QuestionService {
         return questionRepository.findAllByRoomCategory(Category.USER_QUESTIONS).stream()
                 .map(question -> modelMapper.map(question, QuestionResponseDto.class))
                 .toList();
+    }
+
+    public void deleteQuestion(Long id) {
+        Question question = questionRepository.findById(id)
+                .orElseThrow(() -> new QuestionNotFoundException(id));
+
+        if (question != null) {
+            questionRepository.deleteById(id);
+        }
     }
 }

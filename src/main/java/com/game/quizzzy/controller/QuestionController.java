@@ -28,4 +28,10 @@ public class QuestionController {
     public List<QuestionResponseDto> getAllUserQuestions() {
         return questionService.getAllUserQuestions();
     }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void deleteQuestion(@PathVariable("id") Long id) {
+        questionService.deleteQuestion(id);
+    }
 }
