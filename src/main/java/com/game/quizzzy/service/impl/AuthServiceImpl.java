@@ -4,6 +4,7 @@ import com.game.quizzzy.dto.request.LoginRequest;
 import com.game.quizzzy.dto.request.UserRequestDto;
 import com.game.quizzzy.dto.response.LoginResponse;
 import com.game.quizzzy.dto.response.UserResponseDto;
+import com.game.quizzzy.exception.NoAuthenticatedUserException;
 import com.game.quizzzy.exception.UserAlreadyExistsException;
 import com.game.quizzzy.exception.UserNotFoundException;
 import com.game.quizzzy.model.Role;
@@ -67,6 +68,15 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public LoginResponse logout() {
         return new LoginResponse();
+    }
+
+    @Override
+    public UserResponseDto getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            return modelMapper.map(authentication.getPrincipal(), UserResponseDto.class);
+        }
+        throw new NoAuthenticatedUserException();
     }
 
     private String getToken(Authentication authentication) {

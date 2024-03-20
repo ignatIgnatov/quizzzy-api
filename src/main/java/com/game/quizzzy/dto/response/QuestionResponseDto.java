@@ -9,7 +9,8 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class QuestionResponseDto {
 
-    private UserResponseDto user;
+    private Long id;
+    private UserResponseDto author;
     private String question;
     private String trueAnswer;
     private String wrongAnswerOne;

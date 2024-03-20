@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/messages")
 @RequiredArgsConstructor
@@ -17,7 +19,13 @@ public class QuestionController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    QuestionResponseDto createQuestion(@RequestBody @Valid QuestionRequestDto questionRequestDto) {
+    public QuestionResponseDto createQuestion(@RequestBody @Valid QuestionRequestDto questionRequestDto) {
         return questionService.createQuestion(questionRequestDto);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    public List<QuestionResponseDto> getAllUserQuestions() {
+        return questionService.getAllUserQuestions();
     }
 }
