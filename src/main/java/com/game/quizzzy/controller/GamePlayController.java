@@ -16,7 +16,7 @@ public class GamePlayController {
     private final GamePlayService gamePlayService;
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public QuestionResponseDto approveUserQuestion(@PathVariable("id") Long id, @Valid @RequestBody QuestionRequestDto requestDto) {
         return gamePlayService.saveUserQuestionToGamePlay(id, requestDto);
     }
