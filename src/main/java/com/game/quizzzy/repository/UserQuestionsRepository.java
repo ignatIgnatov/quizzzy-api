@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface QuestionRepository extends JpaRepository<Question, Long> {
+public interface UserQuestionsRepository extends JpaRepository<Question, Long> {
     List<Question> findAllByRoomCategory(Category category);
 }

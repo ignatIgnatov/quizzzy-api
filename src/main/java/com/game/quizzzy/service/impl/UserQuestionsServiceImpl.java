@@ -9,10 +9,10 @@ import com.game.quizzzy.model.Category;
 import com.game.quizzzy.model.Question;
 import com.game.quizzzy.model.Room;
 import com.game.quizzzy.model.User;
-import com.game.quizzzy.repository.QuestionRepository;
 import com.game.quizzzy.repository.RoomRepository;
+import com.game.quizzzy.repository.UserQuestionsRepository;
 import com.game.quizzzy.service.AuthService;
-import com.game.quizzzy.service.QuestionService;
+import com.game.quizzzy.service.UserQuestionsService;
 import com.game.quizzzy.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +23,11 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class QuestionServiceImpl implements QuestionService {
+public class UserQuestionsServiceImpl implements UserQuestionsService {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
-    private final QuestionRepository questionRepository;
+    private final UserQuestionsRepository userQuestionsRepository;
     private final RoomRepository roomRepository;
     private final AuthService authService;
 
@@ -44,7 +44,7 @@ public class QuestionServiceImpl implements QuestionService {
         Question question = modelMapper.map(questionRequestDto, Question.class);
         question.setRoom(getRoom());
         question.setAuthor(modelMapper.map(user, User.class));
-        questionRepository.save(question);
+        userQuestionsRepository.save(question);
 
         return modelMapper.map(question, QuestionResponseDto.class);
     }
@@ -58,17 +58,30 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     public List<QuestionResponseDto> getAllUserQuestions() {
-        return questionRepository.findAllByRoomCategory(Category.USER_QUESTIONS).stream()
+        return userQuestionsRepository.findAllByRoomCategory(Category.USER_QUESTIONS).stream()
                 .map(question -> modelMapper.map(question, QuestionResponseDto.class))
                 .toList();
     }
 
     public void deleteQuestion(Long id) {
-        Question question = questionRepository.findById(id)
+        Question question = userQuestionsRepository.findById(id)
                 .orElseThrow(() -> new QuestionNotFoundException(id));
 
         if (question != null) {
-            questionRepository.deleteById(id);
+            userQuestionsRepository.deleteById(id);
         }
+    }
+
+    @Override
+    public Question getQuestion(Long id) {
+        return userQuestionsRepository.findById(id).orElseThrow(
+                () -> new QuestionNotFoundException(id)
+        );
+    }
+
+    @Override
+    public QuestionResponseDto getUserQuestion(Long id) {
+        Question question = getQuestion(id);
+        return modelMapper.map(question, QuestionResponseDto.class);
     }
 }
