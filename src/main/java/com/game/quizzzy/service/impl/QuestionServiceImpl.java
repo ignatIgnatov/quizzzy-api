@@ -6,12 +6,11 @@ import com.game.quizzzy.dto.response.UserResponseDto;
 import com.game.quizzzy.exception.QuestionNotFoundException;
 import com.game.quizzzy.model.Category;
 import com.game.quizzzy.model.Question;
-import com.game.quizzzy.model.Room;
 import com.game.quizzzy.model.User;
-import com.game.quizzzy.repository.RoomRepository;
-import com.game.quizzzy.repository.UserQuestionsRepository;
+import com.game.quizzzy.repository.QuestionRepository;
 import com.game.quizzzy.service.AuthService;
-import com.game.quizzzy.service.UserQuestionsService;
+import com.game.quizzzy.service.QuestionService;
+import com.game.quizzzy.service.RoomService;
 import com.game.quizzzy.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +21,11 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserQuestionsServiceImpl implements UserQuestionsService {
+public class QuestionServiceImpl implements QuestionService {
 
     private final ModelMapper modelMapper;
-    private final UserQuestionsRepository userQuestionsRepository;
-    private final RoomRepository roomRepository;
+    private final QuestionRepository questionRepository;
+    private final RoomService roomService;
     private final AuthService authService;
     private final UserService userService;
 
@@ -37,9 +36,9 @@ public class UserQuestionsServiceImpl implements UserQuestionsService {
         UserResponseDto currentUser = authService.getCurrentUser();
 
         Question question = modelMapper.map(questionRequestDto, Question.class);
-        question.setRoom(getUserQuestionsRoom(Category.USER_QUESTIONS));
+        question.setRoom(roomService.getRoom(Category.USER_QUESTIONS));
         question.setAuthor(modelMapper.map(currentUser, User.class));
-        userQuestionsRepository.save(question);
+        questionRepository.save(question);
 
         return modelMapper.map(question, QuestionResponseDto.class);
     }
@@ -56,36 +55,28 @@ public class UserQuestionsServiceImpl implements UserQuestionsService {
         question.setWrongAnswerThree(requestDto.getWrongAnswerThree());
         question.setApproved(true);
 
-        userQuestionsRepository.save(question);
+        questionRepository.save(question);
         return modelMapper.map(question, QuestionResponseDto.class);
     }
 
-    private Room getUserQuestionsRoom(Category category) {
-        Room room = roomRepository.findByCategory(category);
-        if (room == null) {
-            return roomRepository.save(Room.builder().category(category).build());
-        }
-        return room;
-    }
-
     public List<QuestionResponseDto> getAllUserQuestions() {
-        return userQuestionsRepository.findAllByRoomCategory(Category.USER_QUESTIONS).stream()
+        return questionRepository.findAllByRoomCategory(Category.USER_QUESTIONS).stream()
                 .map(question -> modelMapper.map(question, QuestionResponseDto.class))
                 .toList();
     }
 
     public void deleteQuestion(Long id) {
-        Question question = userQuestionsRepository.findById(id)
+        Question question = questionRepository.findById(id)
                 .orElseThrow(() -> new QuestionNotFoundException(id));
 
         if (question != null) {
-            userQuestionsRepository.deleteById(id);
+            questionRepository.deleteById(id);
         }
     }
 
     @Override
     public Question getQuestionById(Long id) {
-        return userQuestionsRepository.findById(id).orElseThrow(
+        return questionRepository.findById(id).orElseThrow(
                 () -> new QuestionNotFoundException(id)
         );
     }

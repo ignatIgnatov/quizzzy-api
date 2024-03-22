@@ -6,7 +6,7 @@ import com.game.quizzzy.model.Question;
 
 import java.util.List;
 
-public interface UserQuestionsService {
+public interface QuestionService {
     QuestionResponseDto createQuestion(QuestionRequestDto questionRequestDto);
 
     List<QuestionResponseDto> getAllUserQuestions();
