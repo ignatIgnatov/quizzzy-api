@@ -4,7 +4,6 @@ import com.game.quizzzy.dto.request.QuestionRequestDto;
 import com.game.quizzzy.dto.response.QuestionResponseDto;
 import com.game.quizzzy.dto.response.UserResponseDto;
 import com.game.quizzzy.exception.QuestionNotFoundException;
-import com.game.quizzzy.exception.UserNotFoundException;
 import com.game.quizzzy.model.Category;
 import com.game.quizzzy.model.Question;
 import com.game.quizzzy.model.Room;
@@ -25,34 +24,46 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserQuestionsServiceImpl implements UserQuestionsService {
 
-    private final UserService userService;
     private final ModelMapper modelMapper;
     private final UserQuestionsRepository userQuestionsRepository;
     private final RoomRepository roomRepository;
     private final AuthService authService;
+    private final UserService userService;
 
 
     @Transactional
     public QuestionResponseDto createQuestion(QuestionRequestDto questionRequestDto) {
 
-        UserResponseDto user = userService.getUser(questionRequestDto.getEmail());
         UserResponseDto currentUser = authService.getCurrentUser();
-        if (!user.getEmail().equals(currentUser.getEmail())) {
-            throw new UserNotFoundException(user.getEmail());
-        }
 
         Question question = modelMapper.map(questionRequestDto, Question.class);
-        question.setRoom(getRoom());
-        question.setAuthor(modelMapper.map(user, User.class));
+        question.setRoom(getUserQuestionsRoom(Category.USER_QUESTIONS));
+        question.setAuthor(modelMapper.map(currentUser, User.class));
         userQuestionsRepository.save(question);
 
         return modelMapper.map(question, QuestionResponseDto.class);
     }
 
-    private Room getRoom() {
-        Room room = roomRepository.findByCategory(Category.USER_QUESTIONS);
+    @Override
+    public QuestionResponseDto updateQuestion(Long id, QuestionRequestDto requestDto) {
+        Question question = getQuestionById(id);
+        UserResponseDto author = userService.getUser(authService.getCurrentUser().getEmail());
+        question.setAuthor(modelMapper.map(author, User.class));
+        question.setQuestion(requestDto.getQuestion());
+        question.setTrueAnswer(requestDto.getTrueAnswer());
+        question.setWrongAnswerOne(requestDto.getWrongAnswerOne());
+        question.setWrongAnswerTwo(requestDto.getWrongAnswerTwo());
+        question.setWrongAnswerThree(requestDto.getWrongAnswerThree());
+        question.setApproved(true);
+
+        userQuestionsRepository.save(question);
+        return modelMapper.map(question, QuestionResponseDto.class);
+    }
+
+    private Room getUserQuestionsRoom(Category category) {
+        Room room = roomRepository.findByCategory(category);
         if (room == null) {
-            return roomRepository.save(Room.builder().category(Category.USER_QUESTIONS).build());
+            return roomRepository.save(Room.builder().category(category).build());
         }
         return room;
     }
@@ -73,15 +84,15 @@ public class UserQuestionsServiceImpl implements UserQuestionsService {
     }
 
     @Override
-    public Question getQuestion(Long id) {
+    public Question getQuestionById(Long id) {
         return userQuestionsRepository.findById(id).orElseThrow(
                 () -> new QuestionNotFoundException(id)
         );
     }
 
     @Override
-    public QuestionResponseDto getUserQuestion(Long id) {
-        Question question = getQuestion(id);
+    public QuestionResponseDto getQuestionResponseDto(Long id) {
+        Question question = getQuestionById(id);
         return modelMapper.map(question, QuestionResponseDto.class);
     }
 }

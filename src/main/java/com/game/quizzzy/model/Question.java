@@ -26,4 +26,6 @@ public class Question {
 
     @ManyToOne
     private User author;
+
+    private boolean approved = false;
 }

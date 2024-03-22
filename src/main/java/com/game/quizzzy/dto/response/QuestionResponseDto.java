@@ -17,4 +17,5 @@ public class QuestionResponseDto {
     private String wrongAnswerTwo;
     private String wrongAnswerThree;
     private RoomResponseDto room;
+    private boolean approved;
 }

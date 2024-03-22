@@ -13,7 +13,9 @@ public interface UserQuestionsService {
 
     void deleteQuestion(Long id);
 
-    Question getQuestion(Long id);
+    Question getQuestionById(Long id);
 
-    QuestionResponseDto getUserQuestion(Long id);
+    QuestionResponseDto getQuestionResponseDto(Long id);
+
+    QuestionResponseDto updateQuestion(Long id, QuestionRequestDto requestDto);
 }

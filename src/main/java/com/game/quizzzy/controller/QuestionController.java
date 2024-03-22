@@ -38,6 +38,12 @@ public class QuestionController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public QuestionResponseDto getUserQuestion(@PathVariable("id") Long id) {
-        return userQuestionsService.getUserQuestion(id);
+        return userQuestionsService.getQuestionResponseDto(id);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/{id}")
+    public QuestionResponseDto approveUserQuestion(@PathVariable("id") Long id, @Valid @RequestBody QuestionRequestDto requestDto) {
+        return userQuestionsService.updateQuestion(id, requestDto);
     }
 }
