@@ -107,6 +107,7 @@ public class AuthServiceImpl implements AuthService {
                 .email(userRequestDto.getEmail())
                 .password(passwordEncoder.encode(userRequestDto.getPassword()))
                 .roles(Collections.singletonList(selectRole()))
+                .points(0L)
                 .build();
     }
 

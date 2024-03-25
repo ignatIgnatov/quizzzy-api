@@ -1,6 +1,7 @@
 package com.game.quizzzy.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
 
 import java.util.Collection;
@@ -19,6 +20,8 @@ public class User {
     private String lastName;
     private String email;
     private String password;
+    @PositiveOrZero
+    private Long points;
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(name = "user_roles",

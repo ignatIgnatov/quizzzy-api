@@ -10,4 +10,6 @@ public interface UserService {
     void deleteUser(String email);
 
     UserResponseDto getUser(String email);
+
+    UserResponseDto addPointsToUser(String email, Long points);
 }

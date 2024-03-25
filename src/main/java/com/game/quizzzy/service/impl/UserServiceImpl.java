@@ -27,9 +27,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto getUser(String email) {
-        User user = userRepository
-                .findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException(email));
+        User user = findByEmail(email);
+        return modelMapper.map(user, UserResponseDto.class);
+    }
+
+    @Override
+    public UserResponseDto addPointsToUser(String email, Long points) {
+        User user = findByEmail(email);
+        user.setPoints(points);
+        userRepository.save(user);
         return modelMapper.map(user, UserResponseDto.class);
     }
 
@@ -40,5 +46,11 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             userRepository.deleteByEmail(email);
         }
+    }
+
+    private User findByEmail(String email) {
+        return userRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(email));
     }
 }
