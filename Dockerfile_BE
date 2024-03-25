@@ -1,0 +1,3 @@
+FROM amazoncorretto:18-alpine-jdk
+
+ENTRYPOINT ["java", "-jar", "/jar/app.jar"]
