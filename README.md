@@ -31,7 +31,7 @@ You would need the following tools installed before running the project locally:
    ```
    QZ_DATABASE_NAME=quizzzy-db;QZ_DATABASE_PASSWORD=DB-password;QZ_DATABASE_ROOT_PASSWORD=DB-password;QZ_DATABASE_USER=user;JWT_SECRET=36763979244226452948404D635166546A576D5A7134743777217A25432A462D
    ```
-   The first 3 parameters are responsible for database connection and should match the ones we set up in
+   The first 4 parameters are responsible for database connection and should match the ones we set up in
    step 1. The
    last one is a key for JWT token encoding. You can choose to use a different one.
 
