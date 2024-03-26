@@ -39,3 +39,9 @@ You would need the following tools installed before running the project locally:
     - run `mvn clean install` in a terminal to get all the needed dependencies and to build the project
     - Run -> Run -> choose the configuration you set up in step 4
         - The app should be running on localhost:8080
+        - 
+5. Interact with the app
+   In this application is implemented one ROLE_ADMIN user and one ROLE_USER user. 
+   The next few lines describe how these users can be accessed.
+    - admin user -> email: admin@abv.bg password: admin123@@
+    - test user ->  email: test@abv.bg password: test123@@
