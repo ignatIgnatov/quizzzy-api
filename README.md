@@ -21,9 +21,10 @@ You would need the following tools installed before running the project locally:
    QZ_DATABASE_USER=user
    QZ_DATABASE_PASSWORD=DB-password
    QZ_DATABASE_ROOT_PASSWORD=DB-password
+   JWT_SECRET=36763979244226452948404D635166546A576D5A7134743777217A25432A462D
    ```
 2. Start DB
-    - run `docker-compose up` in a terminal in the root folder
+    - run `docker-compose up -d` in a terminal in the root folder
         - This command will start a mysql DB in a docker container with the properties we've entered in the .env file
 3. Setup IntelliJ environment variables
     - Run -> Edit Configurations, then under Environment Variables, you should add the following:
