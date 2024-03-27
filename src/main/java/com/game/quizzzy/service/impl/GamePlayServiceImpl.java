@@ -19,7 +19,7 @@ public class GamePlayServiceImpl implements GamePlayService {
         List<QuestionResponseDto> questions = roomService.getAllApprovedQuestionsByCategory(categoryName);
 
         Random random = new Random();
-        int questionNumber = random.nextInt(0, questions.size()) + 1;
+        int questionNumber = random.nextInt(0, questions.size() + 1);
 
         return questions.get(questionNumber);
     }
