@@ -29,6 +29,7 @@ public class RoomServiceImpl implements RoomService {
                 .toList();
     }
 
+    @Override
     public Room getRoom(Category category) {
         Room room = roomRepository.findByCategory(category);
         if (room == null) {

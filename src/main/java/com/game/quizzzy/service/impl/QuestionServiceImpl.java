@@ -66,9 +66,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     public void deleteQuestion(Long id) {
-        Question question = questionRepository.findById(id)
-                .orElseThrow(() -> new QuestionNotFoundException(id));
-
+        Question question = getQuestionById(id);
         if (question != null) {
             questionRepository.deleteById(id);
         }
