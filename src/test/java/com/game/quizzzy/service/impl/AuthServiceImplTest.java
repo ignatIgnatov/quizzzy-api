@@ -138,8 +138,8 @@ class AuthServiceImplTest {
 
         UserResponseDto actual = authService.getCurrentUser();
 
-        assertEquals(actual.getEmail(), user.getEmail());
-        assertEquals(actual.getId(), user.getId());
+        assertEquals(user.getEmail(), actual.getEmail());
+        assertEquals(user.getId(), actual.getId());
     }
 
     @Test
