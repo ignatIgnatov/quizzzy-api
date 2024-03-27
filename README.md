@@ -41,6 +41,7 @@ You would need the following tools installed before running the project locally:
         - The app should be running on localhost:8080
         - 
 5. Interact with the app
+   
    In this application is implemented one ROLE_ADMIN user and one ROLE_USER user. 
    The next few lines describe how these users can be accessed.
     - admin user -> email: admin@abv.bg password: admin123@@
