@@ -4,7 +4,6 @@ import com.game.quizzzy.dto.response.UserResponseDto;
 import com.game.quizzzy.model.User;
 import com.game.quizzzy.repository.UserRepository;
 import com.game.quizzzy.service.UserService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -39,7 +38,6 @@ public class UserServiceImpl implements UserService {
         return modelMapper.map(user, UserResponseDto.class);
     }
 
-    @Transactional
     @Override
     public void deleteUser(String email) {
         if (userRepository.existsByEmail(email)) {

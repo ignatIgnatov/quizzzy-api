@@ -48,4 +48,4 @@ You would need the following tools installed before running the project locally:
     - test user ->  email: test@abv.bg password: test123@@
 
 6. Api documentation:
-    - http://localhost:8080/auth/swagger-ui/index.html#/   /with Swagger UI/
+    - http://localhost:8080/auth/swagger-ui/index.html#/

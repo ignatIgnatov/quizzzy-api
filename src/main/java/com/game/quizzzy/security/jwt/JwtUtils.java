@@ -62,7 +62,7 @@ public class JwtUtils {
         } catch (UnsupportedJwtException e) {
             logger.error("This token is not supported : {} ", e.getMessage());
         } catch (IllegalArgumentException e) {
-            logger.error("No  claims found : {} ", e.getMessage());
+            logger.error("No claims found : {} ", e.getMessage());
         }
         return false;
     }
