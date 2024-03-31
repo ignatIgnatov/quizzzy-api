@@ -3,6 +3,7 @@ package com.game.quizzzy.controller;
 import com.game.quizzzy.dto.request.QuestionRequestDto;
 import com.game.quizzzy.dto.response.QuestionResponseDto;
 import com.game.quizzzy.service.QuestionService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,30 +18,35 @@ public class QuestionController {
 
     private final QuestionService questionService;
 
+    @Operation(summary = "Create user question")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public QuestionResponseDto createQuestion(@RequestBody @Valid QuestionRequestDto questionRequestDto) {
         return questionService.createQuestion(questionRequestDto);
     }
 
+    @Operation(summary = "Get all user questions")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public List<QuestionResponseDto> getAllUserQuestions() {
         return questionService.getAllUserQuestions();
     }
 
+    @Operation(summary = "Delete user question")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void deleteQuestion(@PathVariable("id") Long id) {
         questionService.deleteQuestion(id);
     }
 
+    @Operation(summary = "Get user question by id")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public QuestionResponseDto getUserQuestion(@PathVariable("id") Long id) {
         return questionService.getQuestionResponseDto(id);
     }
 
+    @Operation(summary = "Approve user question")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
     public QuestionResponseDto approveUserQuestion(@PathVariable("id") Long id, @Valid @RequestBody QuestionRequestDto requestDto) {
