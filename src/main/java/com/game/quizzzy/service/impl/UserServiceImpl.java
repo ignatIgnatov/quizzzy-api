@@ -3,11 +3,13 @@ package com.game.quizzzy.service.impl;
 import com.game.quizzzy.dto.response.UserResponseDto;
 import com.game.quizzzy.model.User;
 import com.game.quizzzy.repository.UserRepository;
+import com.game.quizzzy.service.MailService;
 import com.game.quizzzy.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final MailService mailService;
 
     @Override
     public List<UserResponseDto> getAllUsers() {
@@ -37,6 +40,13 @@ public class UserServiceImpl implements UserService {
         user.setPoints(points);
         userRepository.save(user);
         return modelMapper.map(user, UserResponseDto.class);
+    }
+
+    @Override
+    public void sendForgotPassword(String email) {
+        String text = "Click on this link to add your new password: \n" +
+                "http://localhost:3000/forgot-password";
+        mailService.sendEmail(email, "forgot password", text);
     }
 
     @Override
