@@ -24,8 +24,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -106,7 +106,7 @@ public class AuthServiceImpl implements AuthService {
                 .lastName(userRequestDto.getLastName())
                 .email(userRequestDto.getEmail())
                 .password(passwordEncoder.encode(userRequestDto.getPassword()))
-                .roles(Collections.singletonList(selectRole()))
+                .roles(Set.of(selectRole()))
                 .points(0L)
                 .build();
     }
@@ -120,7 +120,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private Role getRole(String role) {
-        return roleRepository.findByName(role).get();
+        return roleRepository.findByName(role).orElse(null);
     }
 
     private void createRolesInDatabase() {

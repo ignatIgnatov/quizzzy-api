@@ -1,13 +1,11 @@
 package com.game.quizzzy.controller;
 
 import com.game.quizzzy.dto.response.QuestionResponseDto;
-import com.game.quizzzy.model.Category;
 import com.game.quizzzy.service.RoomService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.List;
 
