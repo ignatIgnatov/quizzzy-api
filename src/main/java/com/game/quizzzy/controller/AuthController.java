@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,6 +27,7 @@ public class AuthController {
 
     @Operation(summary = "Login")
     @PostMapping("/login")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public LoginResponse authenticate(@Valid @RequestBody LoginRequest request) {
         return authService.login(request);
@@ -33,6 +35,7 @@ public class AuthController {
 
     @Operation(summary = "Logout")
     @PostMapping("/logout")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public LoginResponse logout() {
         return authService.logout();

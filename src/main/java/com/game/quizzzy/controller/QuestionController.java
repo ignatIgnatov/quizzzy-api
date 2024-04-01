@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,36 +20,40 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @Operation(summary = "Create user question")
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public QuestionResponseDto createQuestion(@RequestBody @Valid QuestionRequestDto questionRequestDto) {
         return questionService.createQuestion(questionRequestDto);
     }
 
     @Operation(summary = "Get all user questions")
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @ResponseStatus(HttpStatus.OK)
     public List<QuestionResponseDto> getAllUserQuestions() {
         return questionService.getAllUserQuestions();
     }
 
     @Operation(summary = "Delete user question")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteQuestion(@PathVariable("id") Long id) {
         questionService.deleteQuestion(id);
     }
 
     @Operation(summary = "Get user question by id")
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @ResponseStatus(HttpStatus.OK)
     public QuestionResponseDto getUserQuestion(@PathVariable("id") Long id) {
         return questionService.getQuestionResponseDto(id);
     }
 
     @Operation(summary = "Approve user question")
-    @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ResponseStatus(HttpStatus.OK)
     public QuestionResponseDto approveUserQuestion(@PathVariable("id") Long id, @Valid @RequestBody QuestionRequestDto requestDto) {
         return questionService.updateQuestion(id, requestDto);
     }
