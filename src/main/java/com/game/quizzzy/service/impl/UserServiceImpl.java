@@ -40,6 +40,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserResponseDto> getAllUsersOrderedByPoints() {
+        return userRepository.findAllByOrderByPointsDesc().stream()
+                .map(user -> modelMapper.map(user, UserResponseDto.class))
+                .toList();
+    }
+
+    @Override
     @Transactional
     public void deleteUser(String email) {
         if (userRepository.existsByEmail(email)) {

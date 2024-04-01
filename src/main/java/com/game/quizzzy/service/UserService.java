@@ -12,4 +12,6 @@ public interface UserService {
     UserResponseDto getUser(String email);
 
     UserResponseDto addPointsToUser(String email, Long points);
+
+    List<UserResponseDto> getAllUsersOrderedByPoints();
 }

@@ -27,7 +27,6 @@ public class AuthController {
 
     @Operation(summary = "Login")
     @PostMapping("/login")
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public LoginResponse authenticate(@Valid @RequestBody LoginRequest request) {
         return authService.login(request);
@@ -35,7 +34,6 @@ public class AuthController {
 
     @Operation(summary = "Logout")
     @PostMapping("/logout")
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public LoginResponse logout() {
         return authService.logout();

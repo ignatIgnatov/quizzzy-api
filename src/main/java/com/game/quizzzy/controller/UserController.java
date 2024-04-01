@@ -47,4 +47,12 @@ public class UserController {
     public UserResponseDto addPointsToUser(@Valid @PathVariable("email") String email, @Valid @PathVariable("points") Long points) {
         return userService.addPointsToUser(email, points);
     }
+
+    @Operation(summary = "Get all users ordered by points")
+    @GetMapping
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @ResponseStatus(HttpStatus.OK)
+    public List<UserResponseDto> getAllUsersOrderedByPoints() {
+        return userService.getAllUsersOrderedByPoints();
+    }
 }
