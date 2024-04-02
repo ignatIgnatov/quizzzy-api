@@ -45,6 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+
     public MessageResponseDto sendForgotPassword(String email) {
         User user = findByEmail(email);
         MessageResponseDto responseDto = new MessageResponseDto();
@@ -65,6 +66,11 @@ public class UserServiceImpl implements UserService {
                 "Quizzzy team";
         mailService.sendEmail(user.getEmail(), "no-replay", text);
         return responseDto;
+
+    public List<UserResponseDto> getAllUsersOrderedByPoints() {
+        return userRepository.findAllByOrderByPointsDesc().stream()
+                .map(user -> modelMapper.map(user, UserResponseDto.class))
+                .toList();
     }
 
     @Override
