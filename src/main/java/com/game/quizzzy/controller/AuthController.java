@@ -1,15 +1,16 @@
 package com.game.quizzzy.controller;
 
+import com.game.quizzzy.dto.request.ChangePasswordRequestDto;
 import com.game.quizzzy.dto.request.LoginRequest;
 import com.game.quizzzy.dto.request.UserRequestDto;
 import com.game.quizzzy.dto.response.LoginResponse;
+import com.game.quizzzy.dto.response.MessageResponseDto;
 import com.game.quizzzy.dto.response.UserResponseDto;
 import com.game.quizzzy.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,7 +28,6 @@ public class AuthController {
 
     @Operation(summary = "Login")
     @PostMapping("/login")
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public LoginResponse authenticate(@Valid @RequestBody LoginRequest request) {
         return authService.login(request);
@@ -35,9 +35,15 @@ public class AuthController {
 
     @Operation(summary = "Logout")
     @PostMapping("/logout")
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public LoginResponse logout() {
         return authService.logout();
+    }
+
+    @Operation(summary = "Change password")
+    @PutMapping("/ch-pwd")
+    @ResponseStatus(HttpStatus.OK)
+    public MessageResponseDto changePassword(@Valid @RequestBody ChangePasswordRequestDto requestDto) {
+        return authService.changePassword(requestDto);
     }
 }

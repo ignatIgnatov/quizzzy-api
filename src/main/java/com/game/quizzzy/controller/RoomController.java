@@ -19,7 +19,6 @@ public class RoomController {
 
     @Operation(summary = "Get all approved user questions")
     @GetMapping("/{category}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public List<QuestionResponseDto> getAllApprovedQuestionsByCategory(@PathVariable("category") String category) {
         return roomService.getAllApprovedQuestionsByCategory(category);

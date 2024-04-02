@@ -1,6 +1,7 @@
 package com.game.quizzzy.config;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -10,6 +11,12 @@ import java.util.Properties;
 
 @Configuration
 public class ApplicationConfig {
+
+    @Value("${mail.sender.username}")
+    private String mailUsername;
+
+    @Value("${mail.sender.password}")
+    private String mailPassword;
 
     @Bean
     public ModelMapper modelMapper() {
@@ -22,8 +29,8 @@ public class ApplicationConfig {
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
 
-        mailSender.setUsername("ignatov1423@gmail.com");
-        mailSender.setPassword("scpx jrwb mivz lzja");
+        mailSender.setUsername(mailUsername);
+        mailSender.setPassword(mailPassword);
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

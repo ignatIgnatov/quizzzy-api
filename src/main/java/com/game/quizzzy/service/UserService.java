@@ -1,5 +1,6 @@
 package com.game.quizzzy.service;
 
+import com.game.quizzzy.dto.response.MessageResponseDto;
 import com.game.quizzzy.dto.response.UserResponseDto;
 
 import java.util.List;
@@ -13,5 +14,5 @@ public interface UserService {
 
     UserResponseDto addPointsToUser(String email, Long points);
 
-    void sendForgotPassword(String email);
+    MessageResponseDto sendForgotPassword(String email);
 }

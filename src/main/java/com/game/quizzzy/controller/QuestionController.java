@@ -28,7 +28,6 @@ public class QuestionController {
 
     @Operation(summary = "Get all user questions")
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public List<QuestionResponseDto> getAllUserQuestions() {
         return questionService.getAllUserQuestions();
@@ -36,7 +35,6 @@ public class QuestionController {
 
     @Operation(summary = "Delete user question")
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteQuestion(@PathVariable("id") Long id) {
         questionService.deleteQuestion(id);
@@ -44,7 +42,6 @@ public class QuestionController {
 
     @Operation(summary = "Get user question by id")
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public QuestionResponseDto getUserQuestion(@PathVariable("id") Long id) {
         return questionService.getQuestionResponseDto(id);
@@ -52,7 +49,6 @@ public class QuestionController {
 
     @Operation(summary = "Approve user question")
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public QuestionResponseDto approveUserQuestion(@PathVariable("id") Long id, @Valid @RequestBody QuestionRequestDto requestDto) {
         return questionService.updateQuestion(id, requestDto);

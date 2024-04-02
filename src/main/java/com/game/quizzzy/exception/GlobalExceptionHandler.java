@@ -48,7 +48,8 @@ public class GlobalExceptionHandler {
             UserAlreadyExistsException.class,
             RoleAlreadyExistException.class,
             ConstraintViolationException.class,
-            HttpMessageNotReadableException.class
+            HttpMessageNotReadableException.class,
+            IncorrectPasswordException.class
     })
     public ResponseEntity<Object> handleBadDataExceptions(RuntimeException ex) {
         String errorMessage = ex.getMessage();

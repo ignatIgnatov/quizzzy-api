@@ -17,7 +17,6 @@ public class GamePlayController {
 
     @Operation(summary = "Get random question from category")
     @GetMapping("/{category}")
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public QuestionResponseDto getRandomQuestion(@PathVariable("category") String category) {
         return gamePlayService.getRandomQuestionFromCategory(category);
