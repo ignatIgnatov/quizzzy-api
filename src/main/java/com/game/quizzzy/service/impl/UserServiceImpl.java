@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService {
                 "Quizzzy team";
         mailService.sendEmail(user.getEmail(), "no-replay", text);
         return responseDto;
+    }
 
     public List<UserResponseDto> getAllUsersOrderedByPoints() {
         return userRepository.findAllByOrderByPointsDesc().stream()

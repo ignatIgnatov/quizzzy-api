@@ -5,11 +5,8 @@ import com.game.quizzzy.dto.request.UserRequestDto;
 import com.game.quizzzy.dto.response.UserResponseDto;
 import com.game.quizzzy.model.Role;
 import com.game.quizzzy.model.User;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.Set;
 
 public class UserTestHelper {
     public static final Long USER_ID = 1L;
@@ -27,7 +24,7 @@ public class UserTestHelper {
                 .email(USER_EMAIL)
                 .password(USER_PASSWORD)
                 .points(USER_POINTS)
-                .roles(Collections.singletonList(createRole()))
+                .roles(Set.of(createRole()))
                 .build();
     }
 

@@ -1,6 +1,5 @@
 package com.game.quizzzy.controller;
 
-import com.game.quizzzy.dto.request.ChangePasswordRequestDto;
 import com.game.quizzzy.dto.response.UserResponseDto;
 import com.game.quizzzy.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
