@@ -41,11 +41,16 @@ You would need the following tools installed before running the project locally:
         - The app should be running on localhost:8080
 
 5. Interact with the app
-   
-   In this application is implemented one ROLE_ADMIN user and one ROLE_USER user. 
+
+   In this application is implemented one ROLE_ADMIN user and one ROLE_USER user.
    The next few lines describe how these users can be accessed.
     - admin user -> email: admin@abv.bg password: admin123@@
     - test user ->  email: test@abv.bg password: test123@@
 
 6. Api documentation:
     - http://localhost:8080/auth/swagger-ui/index.html#/
+
+7. Mail sender: To be able to send emails through the application, you need to enter your environment variables for
+   gmail username and password
+    - QZ_MAIL_USERNAME=
+    - QZ_MAIL_PASSWORD=

@@ -1,9 +1,12 @@
 package com.game.quizzzy.service.impl;
 
+import com.game.quizzzy.dto.request.ChangePasswordRequestDto;
 import com.game.quizzzy.dto.request.LoginRequest;
 import com.game.quizzzy.dto.request.UserRequestDto;
 import com.game.quizzzy.dto.response.LoginResponse;
+import com.game.quizzzy.dto.response.MessageResponseDto;
 import com.game.quizzzy.dto.response.UserResponseDto;
+import com.game.quizzzy.exception.IncorrectPasswordException;
 import com.game.quizzzy.exception.NoAuthenticatedUserException;
 import com.game.quizzzy.exception.UserAlreadyExistsException;
 import com.game.quizzzy.exception.UserNotFoundException;
@@ -14,6 +17,7 @@ import com.game.quizzzy.repository.UserRepository;
 import com.game.quizzzy.security.jwt.JwtUtils;
 import com.game.quizzzy.security.user.ApiUserDetails;
 import com.game.quizzzy.service.AuthService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,6 +44,22 @@ public class AuthServiceImpl implements AuthService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
+    private final UserServiceImpl userService;
+
+    @Override
+    @Transactional
+    public MessageResponseDto changePassword(ChangePasswordRequestDto requestDto) {
+        User user = userService.findByEmail(requestDto.getEmail());
+        String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
+        if (!passwordEncoder.matches(requestDto.getConfirmPassword(), encodedPassword)) {
+            throw new IncorrectPasswordException();
+        }
+        MessageResponseDto messageResponseDto = new MessageResponseDto();
+        messageResponseDto.setMessage("Password changed successfully!");
+        user.setPassword(encodedPassword);
+        userRepository.save(user);
+        return messageResponseDto;
+    }
 
     @Override
     public UserResponseDto registerUser(UserRequestDto userRequestDto) {
