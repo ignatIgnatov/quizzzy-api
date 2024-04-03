@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth/mail")
+@RequestMapping("/mail")
 @RequiredArgsConstructor
 public class MailController {
 
