@@ -1,6 +1,7 @@
 package com.game.quizzzy.controller;
 
 import com.game.quizzzy.dto.request.MailRequestDto;
+import com.game.quizzzy.dto.request.NewPasswordRequestDto;
 import com.game.quizzzy.dto.response.MessageResponseDto;
 import com.game.quizzzy.service.MailService;
 import jakarta.validation.Valid;
@@ -18,6 +19,12 @@ public class MailController {
     @PostMapping("/send")
     @ResponseStatus(HttpStatus.OK)
     public MessageResponseDto sendEmail(@Valid @RequestBody MailRequestDto mailRequestDto) {
-        return mailService.sendForgotPasswordMail(mailRequestDto.getEmail());
+        return mailService.sendForgotPasswordEmail(mailRequestDto.getEmail());
+    }
+
+    @PostMapping("/ch-pwd")
+    @ResponseStatus(HttpStatus.OK)
+    public MessageResponseDto sendEmailForChangedPassword(@Valid @RequestBody NewPasswordRequestDto newPasswordRequestDto) {
+        return mailService.sendChangedPasswordEmail(newPasswordRequestDto.getEmail(), newPasswordRequestDto.getPassword());
     }
 }

@@ -16,11 +16,19 @@ public class MailServiceImpl implements MailService {
     private final UserServiceImpl userService;
 
     @Override
-    public MessageResponseDto sendForgotPasswordMail(String email) {
+    public MessageResponseDto sendForgotPasswordEmail(String email) {
         User user = userService.findByEmail(email);
-        MessageResponseDto responseDto = new MessageResponseDto();
-        responseDto.setMessage("Email send successfully!");
+        MessageResponseDto responseDto = getMessageResponseDto();
         String text = getNewPasswordLinkTextMessage(email);
+        sendEmail(user.getEmail(), "no-replay", text);
+        return responseDto;
+    }
+
+    @Override
+    public MessageResponseDto sendChangedPasswordEmail(String email, String password) {
+        User user = userService.findByEmail(email);
+        MessageResponseDto responseDto = getMessageResponseDto();
+        String text = getChangedPasswordTextMessage(email, password);
         sendEmail(user.getEmail(), "no-replay", text);
         return responseDto;
     }
@@ -32,6 +40,20 @@ public class MailServiceImpl implements MailService {
         message.setSubject(subject);
         message.setText(text);
         javaMailSender.send(message);
+    }
+
+    private static String getChangedPasswordTextMessage(String email, String password) {
+        return "Hello " + email + ", \n" +
+                "\n" +
+                "Your password was changed! \n" +
+                "The new password is: " + password + "\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "This is a system message. Please don't answer it! \n" +
+                "\n" +
+                "Best regards! \n" +
+                "Quizzzy team";
     }
 
     private static String getNewPasswordLinkTextMessage(String email) {
@@ -49,5 +71,11 @@ public class MailServiceImpl implements MailService {
                 "\n" +
                 "Best regards! \n" +
                 "Quizzzy team";
+    }
+
+    private static MessageResponseDto getMessageResponseDto() {
+        MessageResponseDto responseDto = new MessageResponseDto();
+        responseDto.setMessage("Email send successfully!");
+        return responseDto;
     }
 }
