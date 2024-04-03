@@ -11,7 +11,6 @@ import com.game.quizzzy.repository.QuestionRepository;
 import com.game.quizzzy.service.AuthService;
 import com.game.quizzzy.service.QuestionService;
 import com.game.quizzzy.service.RoomService;
-import com.game.quizzzy.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -27,7 +26,6 @@ public class QuestionServiceImpl implements QuestionService {
     private final QuestionRepository questionRepository;
     private final RoomService roomService;
     private final AuthService authService;
-    private final UserService userService;
 
 
     @Transactional
@@ -46,8 +44,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public QuestionResponseDto updateQuestion(Long id, QuestionRequestDto requestDto) {
         Question question = getQuestionById(id);
-        UserResponseDto author = userService.getUser(authService.getCurrentUser().getEmail());
-        question.setAuthor(modelMapper.map(author, User.class));
+
         question.setQuestion(requestDto.getQuestion());
         question.setTrueAnswer(requestDto.getTrueAnswer());
         question.setWrongAnswerOne(requestDto.getWrongAnswerOne());

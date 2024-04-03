@@ -51,14 +51,15 @@ public class AuthServiceImpl implements AuthService {
     public MessageResponseDto changePassword(ChangePasswordRequestDto requestDto) {
         User user = userService.findByEmail(requestDto.getEmail());
         String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
+
         if (!passwordEncoder.matches(requestDto.getConfirmPassword(), encodedPassword)) {
             throw new IncorrectPasswordException();
         }
-        MessageResponseDto messageResponseDto = new MessageResponseDto();
-        messageResponseDto.setMessage("Password changed successfully!");
+
         user.setPassword(encodedPassword);
         userRepository.save(user);
-        return messageResponseDto;
+
+        return getMessageResponseDto();
     }
 
     @Override
@@ -71,7 +72,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
-
         User user = getUserByEmail(loginRequest);
         Authentication authentication = getAuthentication(loginRequest);
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -158,5 +158,11 @@ public class AuthServiceImpl implements AuthService {
         if (userRepository.existsByEmail(userRequestDto.getEmail())) {
             throw new UserAlreadyExistsException(userRequestDto.getEmail());
         }
+    }
+
+    private static MessageResponseDto getMessageResponseDto() {
+        MessageResponseDto messageResponseDto = new MessageResponseDto();
+        messageResponseDto.setMessage("Password changed successfully!");
+        return messageResponseDto;
     }
 }

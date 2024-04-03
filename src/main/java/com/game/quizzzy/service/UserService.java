@@ -14,9 +14,6 @@ public interface UserService {
 
     UserResponseDto addPointsToUser(String email, Long points);
 
-
-    MessageResponseDto sendForgotPassword(String email);
-
     List<UserResponseDto> getAllUsersOrderedByPoints();
 
 }
