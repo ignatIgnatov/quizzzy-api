@@ -18,6 +18,7 @@ import com.game.quizzzy.security.jwt.JwtUtils;
 import com.game.quizzzy.security.user.ApiUserDetails;
 import com.game.quizzzy.service.AuthService;
 import com.game.quizzzy.service.MailService;
+import com.game.quizzzy.utils.MessageService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -38,6 +39,7 @@ public class AuthServiceImpl implements AuthService {
 
     private static final String ROLE_ADMIN = "ROLE_ADMIN";
     private static final String ROLE_USER = "ROLE_USER";
+    private static final String REGISTRATION_SUBJECT = "Successful registration";
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
@@ -69,7 +71,7 @@ public class AuthServiceImpl implements AuthService {
         throwExceptionWhenUserAlreadyExists(userRequestDto);
         User user = createUser(userRequestDto);
         userRepository.save(user);
-        mailService.sendEmailForRegisterUser(userRequestDto.getEmail());
+        mailService.sendEmail(userRequestDto.getEmail(), REGISTRATION_SUBJECT, MessageService.getMessageForRegisterUser(userRequestDto.getEmail()));
         return modelMapper.map(user, UserResponseDto.class);
     }
 
