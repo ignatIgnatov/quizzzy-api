@@ -1,7 +1,5 @@
 package com.game.quizzzy.controller;
 
-import com.game.quizzzy.dto.request.MessageRequestDto;
-import com.game.quizzzy.dto.response.MessageResponseDto;
 import com.game.quizzzy.dto.response.UserResponseDto;
 import com.game.quizzzy.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
