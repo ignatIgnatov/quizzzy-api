@@ -17,6 +17,7 @@ import com.game.quizzzy.repository.UserRepository;
 import com.game.quizzzy.security.jwt.JwtUtils;
 import com.game.quizzzy.security.user.ApiUserDetails;
 import com.game.quizzzy.service.AuthService;
+import com.game.quizzzy.service.MailService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -45,6 +46,7 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     private final UserServiceImpl userService;
+    private final MailService mailService;
 
     @Override
     @Transactional
@@ -67,6 +69,7 @@ public class AuthServiceImpl implements AuthService {
         throwExceptionWhenUserAlreadyExists(userRequestDto);
         User user = createUser(userRequestDto);
         userRepository.save(user);
+        mailService.sendEmailForRegisterUser(userRequestDto.getEmail());
         return modelMapper.map(user, UserResponseDto.class);
     }
 
@@ -154,15 +157,15 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
-    private void throwExceptionWhenUserAlreadyExists(UserRequestDto userRequestDto) {
-        if (userRepository.existsByEmail(userRequestDto.getEmail())) {
-            throw new UserAlreadyExistsException(userRequestDto.getEmail());
-        }
-    }
-
     private static MessageResponseDto getMessageResponseDto() {
         MessageResponseDto messageResponseDto = new MessageResponseDto();
         messageResponseDto.setMessage("Password changed successfully!");
         return messageResponseDto;
+    }
+
+    private void throwExceptionWhenUserAlreadyExists(UserRequestDto userRequestDto) {
+        if (userRepository.existsByEmail(userRequestDto.getEmail())) {
+            throw new UserAlreadyExistsException(userRequestDto.getEmail());
+        }
     }
 }

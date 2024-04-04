@@ -9,4 +9,6 @@ public interface MailService {
     MessageResponseDto sendChangedPasswordEmail(String email, String password);
 
     MessageResponseDto sendMessageToAllUsers(MessageRequestDto messageRequestDto);
+
+    MessageResponseDto sendEmailForRegisterUser(String email);
 }

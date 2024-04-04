@@ -16,6 +16,7 @@ public class MailServiceImpl implements MailService {
 
     private static final String SUBJECT = "no-replay";
     private static final String SYSTEM_MESSAGE = "System message from Quizzzy";
+    private static final String REGISTRATION_SUBJECT = "Successful registration";
 
     private final JavaMailSender javaMailSender;
     private final UserServiceImpl userService;
@@ -45,6 +46,12 @@ public class MailServiceImpl implements MailService {
         return getMessageResponseToAllUsers();
     }
 
+    @Override
+    public MessageResponseDto sendEmailForRegisterUser(String email) {
+        sendEmail(email, REGISTRATION_SUBJECT, getMessageForRegisterUser(email));
+        return getMessageResponseDto();
+    }
+
     private void sendEmail(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(SUBJECT);
@@ -54,18 +61,29 @@ public class MailServiceImpl implements MailService {
         javaMailSender.send(message);
     }
 
+    private static MessageResponseDto getMessageResponseDto() {
+        MessageResponseDto responseDto = new MessageResponseDto();
+        responseDto.setMessage("Email send successfully!");
+        return responseDto;
+    }
+
+    private MessageResponseDto getMessageResponseToAllUsers() {
+        MessageResponseDto messageResponseDto = new MessageResponseDto();
+        String message = "Email send to " + userService.getAllUsers().size() + " users.";
+        messageResponseDto.setMessage(message);
+        return messageResponseDto;
+    }
+
     private static String getChangedPasswordTextMessage(String email, String password) {
         return "Hello " + email + ", \n" +
                 "\n" +
                 "Your password was changed! \n" +
                 "The new password is: " + password + "\n" +
                 "\n" +
-                "\n" +
-                "\n" +
                 "This is a system message. Please don't answer it! \n" +
                 "\n" +
                 "Best regards! \n" +
-                "Quizzzy team";
+                "Quizzzy team \n";
     }
 
     private static String getNewPasswordLinkTextMessage(String email) {
@@ -85,16 +103,20 @@ public class MailServiceImpl implements MailService {
                 "Quizzzy team";
     }
 
-    private static MessageResponseDto getMessageResponseDto() {
-        MessageResponseDto responseDto = new MessageResponseDto();
-        responseDto.setMessage("Email send successfully!");
-        return responseDto;
-    }
-
-    private MessageResponseDto getMessageResponseToAllUsers() {
-        MessageResponseDto messageResponseDto = new MessageResponseDto();
-        String message = "Email send to " + userService.getAllUsers().size() + " users.";
-        messageResponseDto.setMessage(message);
-        return messageResponseDto;
+    private static String getMessageForRegisterUser(String email) {
+        return "Hello, " + email + "\n" +
+                "\n" +
+                "You have successfully registered in Quizzzy - challenge your self.\n" +
+                "\n" +
+                "We expect you to show knowledge and answer more questions truthfully. \n" +
+                "Also, don't forget to join the game with your own questions, which other users will be able to answer.\n" +
+                "Good luck! \n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "This is a system message. Please don't answer it! \n" +
+                "\n" +
+                "Best regards! \n" +
+                "Quizzzy team";
     }
 }
