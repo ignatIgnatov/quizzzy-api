@@ -52,4 +52,11 @@ public class QuestionController {
     public QuestionResponseDto approveUserQuestion(@PathVariable("id") Long id, @Valid @RequestBody QuestionRequestDto requestDto) {
         return questionService.updateQuestion(id, requestDto);
     }
+
+    @Operation(summary = "Get all unapproved user questions")
+    @GetMapping("/unapproved")
+    @ResponseStatus(HttpStatus.OK)
+    public List<QuestionResponseDto> getAllUnapprovedQuestions() {
+        return questionService.getAllUnapprovedQuestions();
+    }
 }

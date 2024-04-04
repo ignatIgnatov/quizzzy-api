@@ -15,4 +15,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     @Query("SELECT q FROM Question q WHERE q.room = :room AND q.approved = true")
     List<Question> findAllApprovedQuestionsByRoom(Room room);
+
+    @Query("SELECT q FROM Question q WHERE q.approved = false")
+    List<Question> findAllUnapprovedQuestions();
 }

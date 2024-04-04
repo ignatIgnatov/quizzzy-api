@@ -18,4 +18,6 @@ public interface QuestionService {
     QuestionResponseDto getQuestionResponseDto(Long id);
 
     QuestionResponseDto updateQuestion(Long id, QuestionRequestDto requestDto);
+
+    List<QuestionResponseDto> getAllUnapprovedQuestions();
 }

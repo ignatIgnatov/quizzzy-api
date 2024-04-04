@@ -81,4 +81,11 @@ public class QuestionServiceImpl implements QuestionService {
         Question question = getQuestionById(id);
         return modelMapper.map(question, QuestionResponseDto.class);
     }
+
+    @Override
+    public List<QuestionResponseDto> getAllUnapprovedQuestions() {
+        return questionRepository.findAllUnapprovedQuestions().stream()
+                .map(question -> modelMapper.map(question, QuestionResponseDto.class))
+                .toList();
+    }
 }
