@@ -8,7 +8,7 @@ import com.game.quizzzy.model.User;
 import com.game.quizzzy.repository.UserRepository;
 import com.game.quizzzy.service.MailService;
 import com.game.quizzzy.service.UserService;
-import com.game.quizzzy.utils.MessageService;
+import com.game.quizzzy.utils.Messages;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(String email) {
         if (userRepository.existsByEmail(email)) {
             userRepository.deleteByEmail(email);
-            mailService.sendEmail(email, SUBJECT, MessageService.getMessageForDeleteUser(email));
+            mailService.sendEmail(email, SUBJECT, Messages.getMessageForDeleteUser(email));
         }
     }
 

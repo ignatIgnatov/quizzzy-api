@@ -6,7 +6,7 @@ import com.game.quizzzy.dto.request.NewPasswordRequestDto;
 import com.game.quizzzy.dto.response.MessageResponseDto;
 import com.game.quizzzy.service.MailService;
 import com.game.quizzzy.service.UserService;
-import com.game.quizzzy.utils.MessageService;
+import com.game.quizzzy.utils.Messages;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ public class MailController {
         return mailService.sendEmail(
                 mailRequestDto.getEmail(),
                 SUBJECT,
-                MessageService.getNewPasswordLinkTextMessage(mailRequestDto.getEmail()));
+                Messages.getNewPasswordLinkTextMessage(mailRequestDto.getEmail()));
     }
 
     @PostMapping("/ch-pwd")
@@ -37,7 +37,7 @@ public class MailController {
         return mailService.sendEmail(
                 newPasswordRequestDto.getEmail(),
                 SUBJECT,
-                MessageService.getChangedPasswordTextMessage(newPasswordRequestDto.getEmail(), newPasswordRequestDto.getPassword()));
+                Messages.getChangedPasswordTextMessage(newPasswordRequestDto.getEmail(), newPasswordRequestDto.getPassword()));
     }
 
     @PostMapping("/general-msg")

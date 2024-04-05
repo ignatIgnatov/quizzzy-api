@@ -1,6 +1,6 @@
 package com.game.quizzzy.utils;
 
-public class MessageService {
+public class Messages {
 
     private static final String SYSTEM_MESSAGE = "This is a system message. Please don't answer it! \n" +
             "\n" +

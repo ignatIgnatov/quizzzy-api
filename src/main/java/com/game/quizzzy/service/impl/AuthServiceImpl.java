@@ -18,7 +18,7 @@ import com.game.quizzzy.security.jwt.JwtUtils;
 import com.game.quizzzy.security.user.ApiUserDetails;
 import com.game.quizzzy.service.AuthService;
 import com.game.quizzzy.service.MailService;
-import com.game.quizzzy.utils.MessageService;
+import com.game.quizzzy.utils.Messages;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -71,7 +71,7 @@ public class AuthServiceImpl implements AuthService {
         throwExceptionWhenUserAlreadyExists(userRequestDto);
         User user = createUser(userRequestDto);
         userRepository.save(user);
-        mailService.sendEmail(userRequestDto.getEmail(), REGISTRATION_SUBJECT, MessageService.getMessageForRegisterUser(userRequestDto.getEmail()));
+        mailService.sendEmail(userRequestDto.getEmail(), REGISTRATION_SUBJECT, Messages.getMessageForRegisterUser(userRequestDto.getEmail()));
         return modelMapper.map(user, UserResponseDto.class);
     }
 
